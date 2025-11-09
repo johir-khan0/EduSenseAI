@@ -1,7 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # EduSense AI — Developer Setup
 
 This repository is a React + Vite frontend that uses AI providers (Gemini by default) to power tutoring and content generation features.
@@ -14,7 +10,7 @@ This README explhains how to run te project locally, keep secrets safe, and prep
 
 ## Prerequisites
 
-- Node.js (18+ recommended)
+- Node.js 
 - npm (or your preferred package manager)
 
 ## Setup (local development)
