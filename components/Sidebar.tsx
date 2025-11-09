@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user, activeView, onNavigate, onLogou
   };
 
   const StudentNav = () => (
-     <nav className="flex flex-col flex-grow p-4">
+     <nav className="flex-grow p-4 overflow-y-auto">
         <div className="space-y-1.5">
             <NavItem
               icon={<HomeIcon className="h-5 w-5" />}
@@ -67,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user, activeView, onNavigate, onLogou
                   isActive={activeView === 'dynamicLearningPath'}
                   onClick={() => handleNavigation('dynamicLearningPath')}
                 />
-                 <NavItem
+                <NavItem
                   icon={<RocketIcon className="h-5 w-5" />}
                   label="Personalized Plan"
                   isActive={activeView === 'personalizedLearningPath'}
@@ -131,26 +131,27 @@ const Sidebar: React.FC<SidebarProps> = ({ user, activeView, onNavigate, onLogou
                   onClick={() => handleNavigation('rewardStore')}
                 />
             </div>
-        </div>
-        <div className="mt-auto pt-4 border-t border-black/5 space-y-1.5">
-            <NavItem
-              icon={<UserIcon className="h-5 w-5" />}
-              label="My Profile"
-              isActive={activeView === 'userProfile'}
-              onClick={() => handleNavigation('userProfile')}
-            />
-            <NavItem
-              icon={<BookOpenIcon className="h-5 w-5" />}
-              label="My Classrooms"
-              isActive={activeView === 'myClassrooms' || activeView === 'studentClassroom'}
-              onClick={() => handleNavigation('myClassrooms')}
-            />
+
+             <div className="pt-4 border-t border-black/5 space-y-1.5">
+              <NavItem
+                icon={<UserIcon className="h-5 w-5" />}
+                label="My Profile"
+                isActive={activeView === 'userProfile'}
+                onClick={() => handleNavigation('userProfile')}
+              />
+              <NavItem
+                icon={<BookOpenIcon className="h-5 w-5" />}
+                label="My Classrooms"
+                isActive={activeView === 'myClassrooms' || activeView === 'studentClassroom'}
+                onClick={() => handleNavigation('myClassrooms')}
+              />
+          </div>
         </div>
       </nav>
   );
 
   const TeacherNav = () => (
-     <nav className="flex-grow p-4 space-y-1.5">
+     <nav className="flex-grow p-4 space-y-1.5 overflow-y-auto">
         <NavItem
           icon={<LayoutGridIcon className="h-5 w-5" />}
           label="Classrooms"
