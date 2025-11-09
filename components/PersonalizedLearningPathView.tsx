@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Type } from "@google/genai";
+import { Type } from '../lib/ai/schemaType';
 import { generateJsonContent } from '../services/aiService';
 import { LearningPlanTask, User } from '../types';
 import Card from './Card';

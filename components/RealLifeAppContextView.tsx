@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Type } from "@google/genai";
+import { Type } from '../lib/ai/schemaType';
 import { generateJsonContent } from '../services/aiService';
 import { RealLifeApplication } from '../types';
 import { mockStudentSkills } from '../data';

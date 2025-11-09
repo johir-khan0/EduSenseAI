@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, XAxis, YAxis } from 'recharts';
-import { Type } from "@google/genai";
+import { Type } from '../lib/ai/schemaType';
 import { generateJsonContent } from '../services/aiService';
 import { User, SkillDetailContent, SkillDetailRecommendation, FutureSkillTrend, SkillRadarSummary, StudentSkill, ClassSkill, SkillProgressRecord } from '../types';
 import Card from './Card';

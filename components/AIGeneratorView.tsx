@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Type } from "@google/genai";
+import { Type } from '../lib/ai/schemaType';
 import { generateJsonContent, generateTextContent } from '../services/aiService';
 import { Result, GeneratedQuestion } from '../types';
 import Card from './Card';
