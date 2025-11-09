@@ -11,6 +11,15 @@ declare module '@google/genai' {
   export type Modality = any;
   export type Blob = any;
 
+  // Minimal 'Type' helper used by the repo to build JSON schema shapes.
+  export const Type: {
+    OBJECT: string;
+    ARRAY: string;
+    STRING: string;
+    BOOLEAN?: string;
+    NUMBER?: string;
+  } & any;
+
   export class GoogleGenAI {
     constructor(opts?: { apiKey?: string });
     models: {
