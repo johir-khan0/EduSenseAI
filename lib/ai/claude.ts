@@ -1,4 +1,4 @@
-import { GenerateContentParameters, GenerateContentResponse, Chat, CreateChatParameters } from "@google/genai";
+import type { GenerateContentParameters, GenerateContentResponse, Chat, CreateChatParameters } from "@google/genai";
 import { AIProvider } from './types';
 
 /**
@@ -28,4 +28,5 @@ class ClaudeProvider implements AIProvider {
     }
 }
 
-export default new ClaudeProvider();
+// Export the class; instantiation will be done by the dynamic loader when required.
+export default ClaudeProvider;

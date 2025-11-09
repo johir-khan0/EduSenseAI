@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
+import { Type } from '../lib/ai/schemaType';
+import { generateJsonContent, generateTextContent } from '../services/aiService';
 import { Result, GeneratedQuestion } from '../types';
 import Card from './Card';
 import Button from './Button';
@@ -253,7 +254,6 @@ const AdaptiveQuizView: React.FC<AdaptiveQuizViewProps> = ({ lastResult, onBackT
         setCurrentQuestion(null);
         
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const schema = {
                 type: Type.OBJECT,
                 properties: {
@@ -268,14 +268,8 @@ const AdaptiveQuizView: React.FC<AdaptiveQuizViewProps> = ({ lastResult, onBackT
             Topic: ${topic}.
             Difficulty: ${currentDifficulty}.
             The 'correctAnswer' must exactly match one of the options.`;
-            
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: prompt,
-                config: { responseMimeType: "application/json", responseSchema: schema },
-            });
 
-            const questionData = JSON.parse(response.text);
+            const questionData = await generateJsonContent(prompt, schema, 'gemini-2.5-flash');
             setCurrentQuestion(questionData);
         } catch (e) {
             console.error("Error generating question:", e);
@@ -287,10 +281,8 @@ const AdaptiveQuizView: React.FC<AdaptiveQuizViewProps> = ({ lastResult, onBackT
 
     const fetchHint = async (questionText: string): Promise<string> => {
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const prompt = `The student answered this question incorrectly: "${questionText}". Provide a very short, one-sentence hint to help them understand the core concept without giving away the answer.`;
-            const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
-            return response.text;
+            return await generateTextContent(prompt, 'gemini-2.5-flash');
         } catch (e) {
             console.error("Error fetching hint:", e);
             return "Remember to review the fundamental principles of this topic.";
@@ -300,12 +292,11 @@ const AdaptiveQuizView: React.FC<AdaptiveQuizViewProps> = ({ lastResult, onBackT
     const fetchSummary = async () => {
         setIsLoading(true);
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const score = quizHistory.filter(q => q.isCorrect).length;
             const prompt = `A student just finished a 10-question adaptive quiz on "${topic}". They got ${score} out of 10 correct and reached a final difficulty of "${difficulty}".
             Provide a short, encouraging summary (2-3 sentences) of their performance and suggest one specific area to focus on next.`;
-            const response = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
-            setSummary(response.text);
+            const summaryText = await generateTextContent(prompt, 'gemini-2.5-flash');
+            setSummary(summaryText);
         } catch (e) {
             console.error("Error fetching summary:", e);
             setSummary("Great work completing the adaptive quiz! Keep practicing to solidify your knowledge.");

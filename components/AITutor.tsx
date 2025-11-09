@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { LiveServerMessage, Modality, Blob, Chat } from '@google/genai';
+import type { LiveServerMessage, Modality, Blob, Chat } from '@google/genai';
 import { createChat } from '../services/aiService';
 import { ChatMessage, User, Result } from '../types';
 import { BotIcon, XIcon, MicIcon, SendIcon, PaperclipIcon, FileTextIcon } from './icons';
@@ -193,7 +193,7 @@ export const AITutor: React.FC<AITutorProps> = ({ user, lastResult }) => {
         return date.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' });
     };
 
-    const initializeChat = useCallback(() => {
+    const initializeChat = useCallback(async () => {
         let systemInstruction: string;
         let initialMessage: string;
 
@@ -220,10 +220,16 @@ export const AITutor: React.FC<AITutorProps> = ({ user, lastResult }) => {
         
         setChatHistory([{ sender: 'bot', text: initialMessage, timestamp: getTimestamp() }]);
         
-        chatRef.current = createChat({
-            model: 'gemini-2.5-flash',
-            config: { systemInstruction }
-        });
+        try {
+            const chatInstance = await createChat({
+                model: 'gemini-2.5-flash',
+                config: { systemInstruction }
+            } as any);
+            chatRef.current = chatInstance as any;
+        } catch (err) {
+            console.error('Failed to initialize chat backend:', err);
+            setChatHistory(prev => [...prev, { sender: 'bot', text: "Sorry, the AI backend is not available right now.", timestamp: getTimestamp() }]);
+        }
 
     }, [lastResult, user.role]);
 

@@ -1,4 +1,4 @@
-import { GenerateContentParameters, GenerateContentResponse, Chat, CreateChatParameters } from "@google/genai";
+import type { GenerateContentParameters, GenerateContentResponse, Chat, CreateChatParameters } from "@google/genai";
 
 export type AIProviderType = 'gemini' | 'openai' | 'claude';
 

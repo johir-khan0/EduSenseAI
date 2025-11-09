@@ -14,7 +14,13 @@ import DynamicLearningPathView from './components/DynamicLearningPathView';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { AITutor } from './components/AITutor';
+// Lazy-load the AITutor so the heavy `@google/genai` package isn't evaluated at module import time
+// which can cause runtime errors in the browser during initial render.
+const AITutor = React.lazy(async () => {
+  const mod = await import('./components/AITutor');
+  // AITutor is exported as a named export
+  return { default: (mod as any).AITutor };
+});
 import { User, Assessment, Result, Classroom, Notification, Question, TimelineEvent, KnowledgeGraphData, SkillProgressRecord, StudentSkill, GraphNode, Submission, ClassroomResource } from './types';
 import { mockUser, mockTeacher, mockAssessments, mockQuestions, mockClassrooms, mockStudents, mockAllNotifications, studentOnboardingSteps, teacherOnboardingSteps, mockStudentGraphData, mockSkillProgressData, mockTimelineEvents, mockStudentSkills, mockClassSkills, academicSubjects, mockSubmissions, mockResources } from './data';
 import AssessmentDetailView from './components/AssessmentDetailView';
@@ -969,7 +975,9 @@ const App: React.FC = () => {
             </div>
             <Footer />
         </main>
-        <AITutor user={user} lastResult={lastResult} />
+        <React.Suspense fallback={null}>
+          <AITutor user={user} lastResult={lastResult} />
+        </React.Suspense>
         
         {showOnboarding && (
           <OnboardingTour

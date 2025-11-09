@@ -1,4 +1,4 @@
-import { GenerateContentParameters, Chat, CreateChatParameters } from "@google/genai";
+import type { GenerateContentParameters, Chat, CreateChatParameters } from "@google/genai";
 import { Type } from '../lib/ai/schemaType';
 import { generateContent, generateContentStream, createChat as createChatBackend, activeProviderConfig } from '../lib/ai';
 

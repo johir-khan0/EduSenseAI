@@ -30,5 +30,5 @@ class GeminiProvider implements AIProvider {
     }
 }
 
-// Export a single instance to be used throughout the app
-export default new GeminiProvider();
+// Export the class so the caller can decide when to instantiate it (avoids running Node-only code during client-side bundle)
+export default GeminiProvider;
